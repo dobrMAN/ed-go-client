@@ -64,6 +64,7 @@ namespace EdGo
             }
 
             StartMinimizedChk.IsChecked = Properties.Settings.Default.StartMinimized;
+            StartProcChk.IsChecked = Properties.Settings.Default.AutoStartProc;
 
         }
 		private void inputs_KeyUp(object sender, KeyEventArgs e)
@@ -91,14 +92,17 @@ namespace EdGo
 
 		private void buttonOk_Click(object sender, RoutedEventArgs e)
 		{
-            if (StartMinimizedChk.IsChecked == true)
+            string startPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs)
+                   + @"\C3S Development\edgo-client\edgo-client.appref-ms";
+            if (AutoStartChk.IsChecked == true)
             {
-                AutoStartRK.SetValue(System.Windows.Forms.Application.ProductName, System.Windows.Forms.Application.ExecutablePath.ToString());
+                AutoStartRK.SetValue(System.Windows.Forms.Application.ProductName, startPath/* System.Windows.Forms.Application.ExecutablePath.ToString()*/);
             } else
             {
                 if (AutoStartRK.GetValue(System.Windows.Forms.Application.ProductName) != null) AutoStartRK.DeleteValue(System.Windows.Forms.Application.ProductName);
             }
             Properties.Settings.Default.StartMinimized = (StartMinimizedChk.IsChecked == true);
+            Properties.Settings.Default.AutoStartProc = (StartProcChk.IsChecked == true);
 
             client.saveDefault();
             this.Hide();
